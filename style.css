@@ -1,0 +1,56 @@
+body {
+  margin: 0;
+  background: #0f0f0f;
+  color: white;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+.status {
+  text-align: left;
+  font-size: 14px;
+  margin-bottom: 10px;
+  opacity: 0.9;
+}
+
+video {
+  width: 100%;
+  border-radius: 12px;
+  background: black;
+  margin-bottom: 10px;
+}
+
+button {
+  width: 100%;
+  padding: 16px;
+  margin: 6px 0;
+  font-size: 18px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#startSessionBtn {
+  background: #1976d2;
+  color: white;
+}
+
+#photoBtn {
+  background: #2e7d32;
+  color: white;
+}
+
+#endSessionBtn {
+  background: #c62828;
+  color: white;
+}
+
+button:disabled {
+  opacity: 0.4;
+}
