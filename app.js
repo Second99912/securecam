@@ -4,13 +4,11 @@ let sessionId = null;
 let photoCount = 0;
 
 let gpsText = "не найден";
-let cameraReady = false;
 
 // элементы
 const video = document.getElementById("video");
 
 const gpsEl = document.getElementById("gps");
-const cameraEl = document.getElementById("camera");
 const sessionEl = document.getElementById("session");
 const counterEl = document.getElementById("counter");
 
@@ -22,11 +20,6 @@ const canvas = document.getElementById("canvas");
 
 // ---------------- GPS ----------------
 function initGPS() {
-  if (!navigator.geolocation) {
-    gpsEl.textContent = "GPS: ❌ нет поддержки";
-    return;
-  }
-
   navigator.geolocation.watchPosition(
     (pos) => {
       gpsText =
@@ -52,11 +45,8 @@ async function initCamera() {
     });
 
     video.srcObject = stream;
-    cameraReady = true;
-
-    cameraEl.textContent = "Камера: 🟢";
   } catch (e) {
-    cameraEl.textContent = "Камера: ❌ ошибка";
+    alert("Ошибка камеры");
   }
 }
 
@@ -82,32 +72,52 @@ function endSession() {
 
 // ---------------- PHOTO ----------------
 function takePhoto() {
-  if (!sessionId || !cameraReady) return;
+  if (!sessionId) return;
+
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
 
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
 
-  const ctx = canvas.getContext("2d");
-  ctx.drawImage(video, 0, 0);
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-  // штамп GPS
+  // затемнение снизу под текст
   ctx.fillStyle = "rgba(0,0,0,0.5)";
-  ctx.fillRect(0, canvas.height - 50, canvas.width, 50);
+  ctx.fillRect(0, canvas.height - 60, canvas.width, 60);
 
+  // координаты
   ctx.fillStyle = "white";
   ctx.font = "20px Arial";
   ctx.fillText(gpsText, 10, canvas.height - 20);
 
-  // просто превью (пока без отправки)
-  const img = canvas.toDataURL("image/jpeg", 0.8);
+  // создаём картинку
+  const imgUrl = canvas.toDataURL("image/jpeg", 0.85);
 
-  console.log("PHOTO:", img);
+  // показываем на экране
+  showPreview(imgUrl);
 
   photoCount++;
   counterEl.textContent = "Фото: " + photoCount;
 
-  // лёгкая вибрация
   if (navigator.vibrate) navigator.vibrate(100);
+}
+
+// ---------------- PREVIEW ----------------
+function showPreview(imgUrl) {
+  let preview = document.getElementById("preview");
+
+  if (!preview) {
+    preview = document.createElement("img");
+    preview.id = "preview";
+    preview.style.width = "100%";
+    preview.style.marginTop = "10px";
+    preview.style.borderRadius = "10px";
+
+    document.body.appendChild(preview);
+  }
+
+  preview.src = imgUrl;
 }
 
 // ---------------- EVENTS ----------------
