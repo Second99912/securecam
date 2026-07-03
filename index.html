@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SecureCam</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="status">
+      <div id="gps">GPS: ⏳</div>
+      <div id="camera">Камера: ⏳</div>
+      <div id="session">Сессия: -</div>
+      <div id="counter">Фото: 0</div>
+    </div>
+
+    <video id="video" autoplay playsinline></video>
+
+    <button id="startSessionBtn">▶ Начать сессию</button>
+    <button id="photoBtn" disabled>📸 Сделать фото</button>
+    <button id="endSessionBtn" disabled>■ Завершить сессию</button>
+
+    <canvas id="canvas" hidden></canvas>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
